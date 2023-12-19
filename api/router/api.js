@@ -30,6 +30,7 @@ router.get('/userupdate/:id',regco.userupdate)
 router.get('/instockproducts',productco.instockproducts)
 router.post('/cartproducts',productco.cartproducts)
 router.put('/update/:id',regco.update)
-router.post('/cart/:loginname',productco.cartvalue)
+// router.post('/cart/:loginname',productco.cartvalue)
+// router.delete('/productdelete/:id',productco.productdelete)
 
 module.exports = router

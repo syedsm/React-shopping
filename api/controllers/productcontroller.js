@@ -11,7 +11,7 @@ exports.productadd = (req, res) => {
             const filename = req.file.filename
             var record = new product({ name: name, desc: desc, price: price, qty: qty, img: filename })
             record.save()
-            console.log(record)
+            // console.log(record)
         } else {
             var record = new product({ name: name, desc: desc, price: price, qty: qty })
             record.save()
@@ -29,6 +29,7 @@ exports.productadd = (req, res) => {
         })
     }
 }
+
 exports.allproducts = async (req, res) => {
     try {
         const record = await product.find()
@@ -60,6 +61,7 @@ exports.singleupdate = async (req, res) => {
         })
     }
 }
+
 exports.productupdate = async (req, res) => {
     // console.log(req.file)
     // console.log(req.params.id)
@@ -107,6 +109,7 @@ exports.delete = async (req, res) => {
     }
 
 }
+
 exports.instockproducts = async (req, res) => {
     try {
         const record = await product.find({ status: 'IN-STOCK' })
@@ -122,10 +125,10 @@ exports.instockproducts = async (req, res) => {
         })
     }
 }
+
 exports.cartproducts = async (req, res) => {
     // console.log(req.body)
     try {
-
         const { ids } = req.body
         const record = await product.find({ _id: { $in: ids } })
         // console.log(record)
@@ -141,36 +144,53 @@ exports.cartproducts = async (req, res) => {
         })
     }
 }
-exports.cartvalue = async (req, res) => {
-    const username = req.params.loginname
-    const { item } = req.body
-    const totalItems = req.body.totalItems
+// exports.cartvalue = async (req, res) => {
+//     const username = req.params.loginname
+//     const { item } = req.body
+//     const totalItems = req.body.totalItems
 
-    // console.log (req.body.item)
-    // console.log(req.body)   
-    // const loginname=req.params.loginname
-    // const item=req.body({item,totalItems})
-    // const {loginname}=req.params.loginname
-    const { id } = req.body.item
-    try {
-        for (const id in item) {
-            // console.log(id)
-            const record1 = await product.findById(id)
-            // console.log(record.name)
-            const name = record1.name
-            const record = new checkout({ productname: name, username: username, quantity: totalItems })
-            record.save()
-        }
-        res.json({
-            status: 200,
-            // apiData: record,
-            message: "Successfully data Inserted into cart "
-        })
-    } catch (error) {
+//     // console.log (req.body.item)
+//     // console.log(req.body)   
+//     // const loginname=req.params.loginname
+//     // const item=req.body({item,totalItems})
+//     // const {loginname}=req.params.loginname
+//     const { id } = req.body.item
+//     try {
+//         for (const id in item) {
+//             // console.log(id)
+//             const record1 = await product.findById(id)
+//             // console.log(record.name)
+//             const name = record1.name
+//             const record = new checkout({ productname: name, username: username, quantity: totalItems })
+//             record.save()
+//         }
+//         res.json({
+//             status: 200,
+//             // apiData: record,
+//             message: "Successfully data Inserted into cart "
+//         })
+//     } catch (error) {
 
-        res.json({
-            status: 400,
-            message: error.message
-        })
-    }
-}
+//         res.json({
+//             status: 400,
+//             message: error.message
+//         })
+//     }
+// }
+// exports.productdelete = async (req, res) => {
+//     // console.log(req.params.id)
+//     const id = req.params.id
+//     try {
+//         const record = await checkout.findByIdAndDelete(id)
+//         // console.log(record)
+//         res.json({
+//             status: 200,
+//             message: "Successfully Cart Deleted "
+//         })
+//     } catch (error) {
+//         res.json({
+//             status: 400,
+//             message: error.message
+//         })
+//     }
+// }

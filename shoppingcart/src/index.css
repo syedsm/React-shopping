@@ -1,0 +1,28 @@
+/* #product{
+display: flex; 
+  
+} */
+
+#login {
+  align-items: center;
+  display: flex;
+  height: 650px;
+}
+
+#login h2 {
+  text-align: center;
+}
+
+#header button {
+  float: right;
+}
+
+#header h2 {
+  color: aliceblue;
+}
+
+#header {
+  background-color: rgb(137, 226, 217);
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

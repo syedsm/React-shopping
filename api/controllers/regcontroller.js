@@ -1,4 +1,5 @@
 const reg = require('../models/reg')
+const bcrypt = require('bcrypt')
 
 exports.reg = async (req, res) => {
     // console.log(req.body)
@@ -6,8 +7,8 @@ exports.reg = async (req, res) => {
     try {
         const usercheck = await reg.findOne({ username: Username })
         if (usercheck == null) {
-
-            const record = new reg({ username: Username, password: Password })
+            const convertedpass = await bcrypt.hash(Password, 10)
+            const record = new reg({ username: Username, password: convertedpass })
             record.save()
             res.json({
                 status: 201,
@@ -34,24 +35,30 @@ exports.logincheck = async (req, res) => {
     try {
         const { Username, Password } = req.body
         const record = await reg.findOne({ username: Username })
-        // console.log(record)
+        console.log(record)
         if (record !== null) {
-            if (record.status == "active") {
-                res.json({
-                    status: 201,
-                    apiData: record
-                })
+            const passwordcompared = await bcrypt.compare(Password, record.password)
+            // if (record.username == "Syed") {
+            if (passwordcompared) {
+                if (record.status == "active") {
+                    res.json({
+                        status: 201,
+                        apiData: record
+                    })
+                }
             } else {
                 res.json({
                     status: 400,
-                    message: "Wrong Credaintles"
+                    message: "Wrong Credentials"
                 })
-            }
+            // }
+        }
+        // }
         }
         else {
             res.json({
                 status: 400,
-                message: "Wrong Credaintles"
+                message: "Wrong Credentials"
             })
         }
 
@@ -64,10 +71,10 @@ exports.logincheck = async (req, res) => {
     }
 }
 exports.userfetch = async (req, res) => {
-    console.log(req.params.id)
+    // console.log(req.params.id)
     try {
         const record = await reg.find()
-        console.log(record)
+        // console.log(record)
         res.json({
             status: 200,
             message: 'success',
